@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_10_03_023356) do
+ActiveRecord::Schema.define(version: 2024_04_10_232953) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -25,6 +25,16 @@ ActiveRecord::Schema.define(version: 2022_10_03_023356) do
     t.datetime "updated_at", precision: 6, null: false
     t.index ["email"], name: "index_admin_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_admin_users_on_reset_password_token", unique: true
+  end
+
+  create_table "coachees", force: :cascade do |t|
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "coaches", force: :cascade do |t|
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "items", force: :cascade do |t|
@@ -61,6 +71,16 @@ ActiveRecord::Schema.define(version: 2022_10_03_023356) do
     t.index ["sales_reports_id"], name: "index_purchases_on_sales_reports_id"
   end
 
+  create_table "roles", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.string "roleable_type", null: false
+    t.bigint "roleable_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["roleable_type", "roleable_id"], name: "index_roles_on_roleable"
+    t.index ["user_id"], name: "index_roles_on_user_id"
+  end
+
   create_table "sales_reports", force: :cascade do |t|
     t.string "file_name"
     t.boolean "processed"
@@ -69,6 +89,17 @@ ActiveRecord::Schema.define(version: 2022_10_03_023356) do
     t.binary "file"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "sessions", force: :cascade do |t|
+    t.bigint "coach_id", null: false
+    t.bigint "coachee_id", null: false
+    t.datetime "start_time"
+    t.bigint "duration"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["coach_id"], name: "index_sessions_on_coach_id"
+    t.index ["coachee_id"], name: "index_sessions_on_coachee_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -105,4 +136,7 @@ ActiveRecord::Schema.define(version: 2022_10_03_023356) do
   add_foreign_key "purchases", "items"
   add_foreign_key "purchases", "purchasers"
   add_foreign_key "purchases", "sales_reports", column: "sales_reports_id"
+  add_foreign_key "roles", "users"
+  add_foreign_key "sessions", "coachees"
+  add_foreign_key "sessions", "coaches"
 end
