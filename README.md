@@ -187,6 +187,25 @@ Where vN.N.N is placeholder text standing in for the latest version.
 
 * If necessary the port 8080 of the posgreSQL container will be exposed to connect database managing solutions like DBeaver
 
+* to run automated tests, while the containers are running do:
+
+<pre><code>docker container list</code></pre>
+
+* This will get all current containers on docker, then get the "nuuvem-app_backend" container ID from the response
+
+![image](https://user-images.githubusercontent.com/42398896/194214144-6a58b460-7e56-4a57-8638-d274245808df.png)
+
+* With the container ID run:
+
+<pre><code>docker exec -it <CONTAINER_ID> bash
+# example
+docker exec -it 4c1f52876610 bash
+</code></pre>
+
+* Finally run rspec with:
+
+<pre><code>bundle exec rspec</code></pre>
+
 * When done, shut down the containers by using:
 
 <pre><code>docker-compose down</code></pre>
