@@ -42,6 +42,8 @@ class User < ApplicationRecord
   include DeviseTokenAuth::Concerns::User
   serialize :tokens
 
+  has_many :roles
+
   validates :locale,
             inclusion: { in: I18n.available_locales.map(&:to_s), allow_blank: true },
             if: :locale_changed?
