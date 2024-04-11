@@ -24,10 +24,6 @@ module Api
         rescue StandardError => e
           render json: { error: e.message }, status: :unprocessable_entity
         end
-
-        private
-
-        def validate_session_creation(coach_user, coachee_user); end
       end
     end
   end
