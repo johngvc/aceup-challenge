@@ -1,4 +1,7 @@
 class SessionScheduling
+  class SchedulingError < StandardError
+  end
+
   def self.schedule!(coach_user, coachee_user, start_time, duration)
     validate_session_creation(coach_user, coachee_user, start_time)
 
@@ -10,7 +13,7 @@ class SessionScheduling
 
     parties_available = [coach_available, coachee_available].all? { |value| value == true }
 
-    raise 'One or more Parties are not available for scheduling' unless parties_available
+    raise SchedulingError, 'One or more Parties are not available for scheduling' unless parties_available
 
     Session.create!(coach: coach, coachee: coachee, start_time: start_time, duration: duration)
   end
@@ -28,12 +31,12 @@ class SessionScheduling
   end
 
   def self.validate_session_creation(coach_user, coachee_user, start_time)
-    raise 'coach_user provided is not a Coach' unless coach_user.is(Coach)
+    raise SchedulingError, 'coach_user provided is not a Coach' unless coach_user.is(Coach)
 
-    raise 'coachee_user provided is not a Coachee' unless coachee_user.is(Coachee)
+    raise SchedulingError, 'coachee_user provided is not a Coachee' unless coachee_user.is(Coachee)
 
-    raise 'coach_user and coachee_user must be different' if coach_user == coachee_user
+    raise SchedulingError, 'coach_user and coachee_user must be different' if coach_user == coachee_user
 
-    raise 'Start time is in the past' if start_time < DateTime.now
+    raise SchedulingError, 'Start time is in the past' if start_time < DateTime.now
   end
 end

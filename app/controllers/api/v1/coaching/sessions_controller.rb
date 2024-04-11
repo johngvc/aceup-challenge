@@ -21,7 +21,7 @@ module Api
                                                 session_info[:duration])
 
           render json: session, status: :created
-        rescue StandardError => e
+        rescue SessionScheduling::SchedulingError => e
           render json: { error: e.message }, status: :unprocessable_entity
         end
       end

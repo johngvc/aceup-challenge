@@ -22,9 +22,9 @@
 #
 FactoryBot.define do
   factory :session do
-    coach { nil }
-    coachee { nil }
-    start_time { "2024-04-10 23:29:53" }
-    duration { "" }
+    coach { association :coach }
+    coachee { association :coachee }
+    start_time { 1.day.from_now }
+    duration { 60 }
   end
 end

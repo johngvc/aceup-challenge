@@ -20,7 +20,11 @@
 #
 FactoryBot.define do
   factory :role do
-    user { nil }
-    roleable { nil }
+    user { association :user }
+    roleable { association :coachee }
+
+    trait :coach do
+      roleable { association :coach }
+    end
   end
 end

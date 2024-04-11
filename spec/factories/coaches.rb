@@ -8,6 +8,8 @@
 #
 FactoryBot.define do
   factory :coach do
-    
+    trait :with_role do
+      role { association :role }
+    end
   end
 end

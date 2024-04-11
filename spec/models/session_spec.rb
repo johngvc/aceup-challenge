@@ -23,5 +23,28 @@
 require 'rails_helper'
 
 RSpec.describe Session, type: :model do
-  pending "add some examples to (or delete) #{__FILE__}"
+  subject { session }
+
+  let(:session) { build(:session) }
+
+  describe 'associations' do
+    it { is_expected.to belong_to(:coach) }
+    it { is_expected.to belong_to(:coachee) }
+  end
+
+  describe 'timeframe' do
+    subject { session.timeframe }
+
+    it 'returns the correct timeframe' do
+      expect(session.timeframe).to eq(session.start_time..(session.start_time + session.duration.minutes))
+    end
+  end
+
+  describe 'end_time' do
+    subject { session.end_time }
+
+    it 'returns the correct end time' do
+      expect(session.end_time).to eq(session.start_time + session.duration.minutes)
+    end
+  end
 end

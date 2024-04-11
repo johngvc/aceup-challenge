@@ -9,5 +9,11 @@
 require 'rails_helper'
 
 RSpec.describe Coach, type: :model do
-  pending "add some examples to (or delete) #{__FILE__}"
+  describe 'associations' do
+    subject { build(:coach) }
+
+    it { is_expected.to have_one(:role) }
+    it { is_expected.to have_many(:sessions) }
+    it { is_expected.to have_one(:user) }
+  end
 end
