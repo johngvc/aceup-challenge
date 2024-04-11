@@ -1,28 +1,9 @@
-# Project Nuuvem app
+# Project AceUp Challenge app
 
 Name: João Gabriel Vezza Campos
 
 ## Project description
-You've received a text file (tab separated) with data describing the company sales. We need a way for this data to be imported to a database to be analyzed later.
-Your job is to create a web interface that accepts file uploads, normalizes the data and stores it in a relational database.
-Your application MUST:
-
-1. Accept (via HTML form) file uploads of TAB-separated files, with the following columns: purchaser name, item description, item price, purchase count, merchant address, merchant name. You can assume the columns will always be in that order, and that there will always be some value in each column, and that there will always be a header row. An example file called example_input.tab is included on this repo.
-2. Interpret (parse) the received file, normalize the data, and save the data correctly in a relational database. Don't forget to model the entities imported from the file data, considering their relationships.
-3. Show the total gross income represented by the sales data after each file upload, and also the total all-time gross income.
-4. Be written in Ruby 2.7 or greater (or, in the language solicited by the job description, if any).
-5. Have good automated tests coverage.
-6. Be simple to configure and execute, running on a Unix-compatible environment (Linux or macOS).
-7. Use only free / open-source language and libraries.
-
-## Acceptance criteria
-
-* Does the application fulfill the basic requirements?
-* Did you document how to configure and run the application?
-* Did you follow closely the project specification?
-* Quality of the code itself, how it's strutured and how it complies with good object-oriented practices;
-* Quality and coverage of unit / funcional / automated tests;
-* Familiarity with the standard libraries of the language and other packages;
+Challenge Project from Aceup
 
 ## Installing the app
 
@@ -192,8 +173,11 @@ If you have already set up the Docker repository, jump to step 2.
  
 Where vN.N.N is placeholder text standing in for the latest version.
 
+### 3. Configuring envs
 
-### 3. Launch the project using docker-compose tool
+* Copy the contents of .template.env to a new .env file on the root of the project (No sensible information is stored in the .template.env)
+
+### 4. Launch the project using docker-compose tool
 
 * The project consists of 2 containers working simultaneously, to start the program we need to run on the root of the project:
 
@@ -203,68 +187,33 @@ Where vN.N.N is placeholder text standing in for the latest version.
 
 * If necessary the port 8080 of the posgreSQL container will be exposed to connect database managing solutions like DBeaver
 
-* to run automated tests, while the containers are running do:
-
-<pre><code>docker container list</code></pre>
-
-* This will get all current containers on docker, then get the "nuuvem-app_backend" container ID from the response
-
-![image](https://user-images.githubusercontent.com/42398896/194214144-6a58b460-7e56-4a57-8638-d274245808df.png)
-
-* With the container ID run:
-
-<pre><code>docker exec -it <CONTAINER_ID> bash
-# example
-docker exec -it 4c1f52876610 bash
-</code></pre>
-
-* Finally run rspec with:
-
-<pre><code>bundle exec rspec</code></pre>
-
 * When done, shut down the containers by using:
 
 <pre><code>docker-compose down</code></pre>
 
-### 4. Access the backoffice utility of the application
+### 5. Create a new session
 
-* To access the backoffice utility go to http://localhost:3000/admin
+* After the project starts, a seed will create 3 users, they are:
+  * coach_john
+    * Only coach
+  * coachee_mary
+    * Only coachee
+  * coachandcoachee_will
+    * Coach and Coachee
+* Use the ids of the users you desire to schedule a session with, the start_time of the session and the duration in minutes on the unauthenticated route 'POST localhost:3000/api/v1/coaching/sessions'
 
-**I've decided to use the back-office utility to better represent a real world scenario where the provided sales report
-would be used by the back-office to update the database with new data.**
+  Example body:
 
-### 5. Log in with the mock user
-
-* The credentials will be
-  * Email: admin@example.com
-  * Password: password
-
-![image](https://user-images.githubusercontent.com/42398896/194209884-5e16a4f9-5e8c-4a66-bef6-15d3cb6ba5ec.png)
-
-### 6. Submit new sale report
-
-![image](https://user-images.githubusercontent.com/42398896/194210483-e1378a1c-058f-444e-b6d5-ef83f47ac8b9.png)
-
-### 6. Submit sales report file
-
-![image](https://user-images.githubusercontent.com/42398896/194210553-6e458a0c-23b9-468f-a7ac-ff3ccdcd5076.png)
-
-![image](https://user-images.githubusercontent.com/42398896/194210668-2e6c86d2-12f9-46aa-b919-9384fee97830.png)
-
-### 7. Check if process was successful alongside with report gross sum and total gross income
-
-![image](https://user-images.githubusercontent.com/42398896/194210838-e6ce2777-21bd-415c-ad7a-1bc247329011.png)
-
-### 8. Optional - Check the Items, Merchants, Purchasers, Purchases and Sales Reports imported
-
-![image](https://user-images.githubusercontent.com/42398896/194210901-54d975f0-3dc6-4d83-b70c-215b098bbbc1.png)
-
-### 9. Optional - Re upload failed reports and older reports if neccessary
-
-![image](https://user-images.githubusercontent.com/42398896/194211300-500f054b-f24d-4f1b-878e-ddfd74fb3e2c.png)
-
-![image](https://user-images.githubusercontent.com/42398896/194211404-e3098ac4-2cb6-4d33-95f5-87d7dffa175e.png)
-
+  <pre><code>
+  {
+    "session_info": {
+        "coach_user_id": 3,
+        "coachee_user_id": 2,
+        "start_time": "12/04/2024 01:49",
+        "duration": 120
+      }
+  }
+  </code></pre>
 -----------------------------------------------------------------------------------------------------------------------------------
 
 # This project used the amazing rails api boilerplate project provided by the good folks at loopstudio - more info about the boilerplate below 👇
