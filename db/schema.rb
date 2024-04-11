@@ -37,40 +37,6 @@ ActiveRecord::Schema.define(version: 2024_04_10_232953) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
-  create_table "items", force: :cascade do |t|
-    t.string "name"
-    t.float "price"
-    t.bigint "merchant_id", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.index ["merchant_id"], name: "index_items_on_merchant_id"
-  end
-
-  create_table "merchants", force: :cascade do |t|
-    t.string "name"
-    t.string "address"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-  end
-
-  create_table "purchasers", force: :cascade do |t|
-    t.string "name"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-  end
-
-  create_table "purchases", force: :cascade do |t|
-    t.bigint "purchaser_id", null: false
-    t.bigint "item_id", null: false
-    t.bigint "sales_reports_id", null: false
-    t.integer "quantity"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.index ["item_id"], name: "index_purchases_on_item_id"
-    t.index ["purchaser_id"], name: "index_purchases_on_purchaser_id"
-    t.index ["sales_reports_id"], name: "index_purchases_on_sales_reports_id"
-  end
-
   create_table "roles", force: :cascade do |t|
     t.bigint "user_id", null: false
     t.string "roleable_type", null: false
@@ -79,16 +45,6 @@ ActiveRecord::Schema.define(version: 2024_04_10_232953) do
     t.datetime "updated_at", precision: 6, null: false
     t.index ["roleable_type", "roleable_id"], name: "index_roles_on_roleable"
     t.index ["user_id"], name: "index_roles_on_user_id"
-  end
-
-  create_table "sales_reports", force: :cascade do |t|
-    t.string "file_name"
-    t.boolean "processed"
-    t.string "last_error"
-    t.float "gross_sum"
-    t.binary "file"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "sessions", force: :cascade do |t|
@@ -132,10 +88,6 @@ ActiveRecord::Schema.define(version: 2024_04_10_232953) do
     t.index ["uid", "provider"], name: "index_users_on_uid_and_provider", unique: true
   end
 
-  add_foreign_key "items", "merchants"
-  add_foreign_key "purchases", "items"
-  add_foreign_key "purchases", "purchasers"
-  add_foreign_key "purchases", "sales_reports", column: "sales_reports_id"
   add_foreign_key "roles", "users"
   add_foreign_key "sessions", "coachees"
   add_foreign_key "sessions", "coaches"

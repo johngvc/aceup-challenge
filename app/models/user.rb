@@ -42,7 +42,7 @@ class User < ApplicationRecord
   include DeviseTokenAuth::Concerns::User
   serialize :tokens
 
-  has_many :roles
+  has_many :roles, dependent: :destroy
 
   validates :locale,
             inclusion: { in: I18n.available_locales.map(&:to_s), allow_blank: true },
@@ -50,5 +50,17 @@ class User < ApplicationRecord
 
   def send_devise_notification(notification, *args)
     devise_mailer.send(notification, self, *args).deliver_later
+  end
+
+  def is(role)
+    roles.where(roleable_type: role.name).exists?
+  end
+
+  def coach
+    roles.find_by(roleable_type: 'Coach')&.roleable
+  end
+
+  def coachee
+    roles.find_by(roleable_type: 'Coachee')&.roleable
   end
 end

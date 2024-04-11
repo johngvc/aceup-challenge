@@ -40,6 +40,8 @@ module RailsApiBoilerplate
       reply_to: ENV.fetch('DEFAULT_FROM_EMAIL_ADDRESS', nil)
     }
 
+    config.autoload_paths += Dir[Rails.root.join('app', 'services', '**/')]
+
     config.generators do |gen|
       gen.test_framework :rspec
       gen.fixture_replacement :factory_bot, dir: 'spec/factories'

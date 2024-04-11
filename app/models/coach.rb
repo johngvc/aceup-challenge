@@ -8,7 +8,6 @@
 #
 class Coach < ApplicationRecord
   has_one :role, as: :roleable
-  def user
-    role.user
-  end
+  has_one :user, through: :role
+  has_many :sessions
 end

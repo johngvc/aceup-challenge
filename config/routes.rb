@@ -15,8 +15,10 @@ Rails.application.routes.draw do
 
   namespace :api, defaults: { format: :json } do
     namespace :v1 do
+      namespace :coaching do
+        resources :sessions, only: [:create]
+      end
       resource :user, only: %i[show update]
-
       devise_scope :user do
         resources :users, only: [] do
           controller :registrations do

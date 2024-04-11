@@ -23,4 +23,17 @@
 class Session < ApplicationRecord
   belongs_to :coach
   belongs_to :coachee
+
+  scope :sessions_within_timeframe, lambda { |start_date, end_date|
+                                      where('(start_time BETWEEN ? AND ?)', start_date,
+                                            end_date).or(where("((start_time + (duration * interval '1 minute' )) BETWEEN ? AND ?)", start_date,
+                                                               end_date))
+                                    }
+  def end_time
+    start_time + duration.minutes
+  end
+
+  def timeframe
+    start_time..(start_time + duration.minutes)
+  end
 end
